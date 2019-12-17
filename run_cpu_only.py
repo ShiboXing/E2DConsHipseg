@@ -50,7 +50,7 @@ def get_models(bias, e2d, res, small, bn, dunet, dim='2d', model_folder=None, ve
         model = UNet(1 + (e2d*2), 1, residual=res, small=small, bias=bias, bn=bn, dim=dim, verbose=verbose)
         if model_folder is not None:
             path = glob.glob(os.path.join(model_folder, "*.pt"))[0]
-            model.load_state_dict(torch.load(path))
+            model.load_state_dict(torch.load(path,map_location=torch.device('cpu')))
         return model
     else:
         models = {}
@@ -61,7 +61,7 @@ def get_models(bias, e2d, res, small, bn, dunet, dim='2d', model_folder=None, ve
                 model = UNet(1 + (e2d*2), 1, residual=res, small=small, bias=bias, bn=bn, dim=dim, verbose=verbose)
             if model_folder is not None:
                 path = glob.glob(os.path.join(model_folder, "*" + o + ".pt"))[0]
-                model.load_state_dict(torch.load(path))
+                model.load_state_dict(torch.load(path,map_location=torch.device('cpu')))
             models[o] = model
         return models
 
